@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using WordFrequency;
+using System.Collections.Generic;
+using System.Globalization;
 
 class Program
 {
@@ -219,5 +221,147 @@ class Program
         Console.WriteLine("Stiri procesate: " + procesate);
         Console.WriteLine("Erori: " + erori);
         Console.WriteLine("Procesare terminata");
+
+        //lab3 etapa1
+        Etapa1(outputPath);
     }
+
+
+
+    static double Entropie(List<string> clase)
+    {
+        if (clase.Count == 0)
+            return 0;
+
+        double rezultat = 0;
+
+        foreach (var grup in clase.GroupBy(c => c))
+        {
+            double p = (double)grup.Count() / clase.Count;
+            rezultat -= p * Math.Log2(p);
+        }
+
+        return rezultat;
+    }
+
+    static void Etapa1(string inputPath)
+    {
+        string[] linii = File.ReadAllLines(inputPath);
+
+        List<string> atribute = new List<string>();
+        List<(HashSet<int> Atribute, string Clasa)> documente =
+            new List<(HashSet<int>, string)>();
+
+        bool sectiuneData = false;
+
+        foreach (string linie in linii)
+        {
+            string text = linie.Trim();
+
+            if (text.StartsWith("@attribute "))
+            {
+                atribute.Add(text);
+                continue;
+            }
+
+            if (text == "@data")
+            {
+                sectiuneData = true;
+                continue;
+            }
+
+            if (!sectiuneData || text.Length == 0)
+                continue;
+
+            string[] parti = text.Split('#');
+
+            if (parti.Length < 4)
+                continue;
+
+            
+            if (parti[3].Trim() != "Training")
+                continue;
+
+            HashSet<int> atributePrezente = new HashSet<int>();
+
+            string[] valori = parti[1].Trim().Split(
+                ' ', StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (string valoare in valori)
+            {
+                string[] pereche = valoare.Split(':');
+
+                if (pereche.Length != 2)
+                    continue;
+
+                int pozitie = int.Parse(pereche[0]);
+                int frecventa = int.Parse(pereche[1]);
+
+                if (frecventa > 0)
+                    atributePrezente.Add(pozitie);
+            }
+
+            string clasa = parti[2].Trim();
+
+            documente.Add((atributePrezente, clasa));
+        }
+
+        if (documente.Count == 0)
+        {
+            Console.WriteLine("Nu exista documente Training.");
+            return;
+        }
+
+        double entropieInitiala =
+            Entropie(documente.Select(d => d.Clasa).ToList());
+
+        List<string> rezultat = new List<string>();
+
+        for (int i = 0; i < atribute.Count; i++)
+        {
+            var prezente = documente
+                .Where(d => d.Atribute.Contains(i))
+                .Select(d => d.Clasa)
+                .ToList();
+
+            var absente = documente
+                .Where(d => !d.Atribute.Contains(i))
+                .Select(d => d.Clasa)
+                .ToList();
+
+            double p1 = (double)prezente.Count / documente.Count;
+            double p0 = (double)absente.Count / documente.Count;
+
+            double castig = entropieInitiala
+                - p1 * Entropie(prezente)
+                - p0 * Entropie(absente);
+
+            castig = Math.Max(0, castig);
+
+            rezultat.Add(
+                atribute[i] + " " +
+                castig.ToString("F6", CultureInfo.InvariantCulture));
+        }
+
+        int pozitieData = Array.FindIndex(
+            linii, l => l.Trim() == "@data");
+
+        rezultat.AddRange(linii.Skip(pozitieData));
+
+        string outputPath = Path.Combine(
+            Path.GetDirectoryName(inputPath)!,
+            "rezultat_etapa1.txt");
+
+        File.WriteAllLines(outputPath, rezultat);
+
+        Console.WriteLine("Etapa 1 terminata!");
+        Console.WriteLine("Entropie initiala: " + entropieInitiala);
+        Console.WriteLine("Atribute calculate: " + atribute.Count);
+        Console.WriteLine("Documente Training: " + documente.Count);
+        Console.WriteLine("Fisier rezultat: " + outputPath);
+    }
+
+
+
+
 }
