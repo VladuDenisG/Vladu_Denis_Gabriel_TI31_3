@@ -1,0 +1,75 @@
+@attribute intranet 0.541982
+@attribute product 0.740895
+@attribute tuesdai 0.668115
+@attribute comput 0.622000
+@attribute network 0.654494
+@attribute compani 0.672816
+@attribute market 0.654660
+@attribute intern 0.501371
+@attribute corpor 0.654494
+@attribute netscap 0.700775
+@attribute commun 0.700775
+@attribute corp 0.678823
+@attribute microsoft 0.626701
+@attribute internet 0.870887
+@attribute web 0.580420
+@attribute million 0.604749
+@attribute user 0.603404
+@attribute base 0.506346
+@attribute servic 0.654494
+@attribute access 0.654494
+@attribute busi 0.682453
+@attribute build 0.541982
+@attribute latest 0.571101
+@attribute high 0.501371
+@attribute browser 0.728568
+@attribute stock 0.547487
+@attribute launch 0.626535
+@attribute navig 0.605187
+@attribute week 0.515183
+@attribute provid 0.515183
+@attribute includ 0.519967
+@attribute share 0.650864
+@attribute percent 0.723594
+@attribute industri 0.621561
+@attribute firm 0.603404
+@attribute world 0.580420
+@attribute wide 0.580420
+@attribute term 0.531113
+@attribute oper 0.506346
+@attribute system 0.594041
+@attribute window 0.503154
+@attribute execut 0.603404
+@attribute loss 0.662172
+@attribute end 0.714230
+@attribute gener 0.529330
+@attribute program 0.503154
+@attribute month 0.649520
+@attribute desktop 0.503258
+@attribute make 0.580420
+@attribute technolog 0.774849
+@attribute person 0.503154
+@attribute financi 0.515183
+@attribute develop 0.622000
+@attribute number 0.690130
+@attribute elimin 0.503258
+@attribute top 0.605187
+@attribute long 0.503154
+@attribute data 0.622000
+@attribute announc 0.531113
+@attribute group 0.547487
+@attribute work 0.503154
+@attribute note 0.723594
+@attribute net 0.691290
+@attribute giant 0.588098
+@attribute ventur 0.589257
+@attribute appear 0.503258
+@attribute wednesdai 0.529330
+@data
+2504NEWS # 1:4 2:4 3:1 4:1 5:10 6:5 7:1 8:1 9:2 10:1 11:1 12:2 13:1 14:3 15:3 16:3 17:1 18:1 19:1 20:2 21:1 22:1 23:2 24:1 25:1 26:1 # C22 CCAT # Testing
+2538NEWS # 2:3 3:1 4:4 7:4 10:10 11:2 12:2 13:14 14:9 15:2 16:1 17:8 18:2 19:1 20:1 23:3 24:1 25:8 26:1 27:4 28:3 29:2 30:2 31:1 32:3 33:1 34:1 35:1 36:1 37:1 38:1 39:3 40:4 41:4 # C22 C31 CCAT # Testing
+2775NEWS # 1:1 2:1 3:2 6:2 7:2 9:2 10:1 11:1 12:4 13:2 14:4 16:2 17:2 19:7 20:1 25:1 30:1 32:1 35:1 41:1 42:1 43:4 44:1 45:1 46:1 47:1 # C15 C152 CCAT # Testing
+2792NEWS # 2:1 3:1 4:2 6:5 7:5 9:1 10:12 11:1 12:2 13:16 14:7 15:1 16:1 17:3 18:1 19:1 20:2 23:3 25:10 26:1 27:1 28:2 29:3 30:3 32:2 33:3 36:1 37:1 39:1 40:3 41:3 47:1 48:1 49:1 50:1 51:1 52:1 53:1 54:1 55:1 # C13 C34 CCAT # Testing
+2822NEWS # 3:1 11:1 12:1 13:1 15:2 27:1 31:1 53:1 # C22 CCAT # Testing
+2836NEWS # 1:2 3:1 5:3 6:6 7:4 8:1 10:1 11:2 12:4 13:2 14:10 18:2 19:15 20:3 21:2 24:2 25:3 27:1 30:6 31:1 32:4 33:1 36:1 37:1 38:1 45:1 47:2 49:1 56:2 57:7 58:2 # C11 C22 C31 C313 CCAT # Testing
+2848NEWS # 3:1 6:4 12:2 20:1 26:3 32:4 38:2 50:2 59:1 # C11 C18 C181 CCAT # Testing

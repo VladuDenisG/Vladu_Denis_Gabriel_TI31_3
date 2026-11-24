@@ -224,7 +224,16 @@ class Program
 
         //lab3 etapa1
         Etapa1(outputPath);
+
+        //lab3 etapa2
+        string etapa1Path = Path.Combine(
+            Path.GetDirectoryName(outputPath)!,
+            "rezultat_etapa1.txt");
+
+        Etapa2(etapa1Path, 0.5);
+
     }
+
 
 
 
@@ -360,6 +369,142 @@ class Program
         Console.WriteLine("Documente Training: " + documente.Count);
         Console.WriteLine("Fisier rezultat: " + outputPath);
     }
+
+
+    static void Etapa2(string inputPath, double prag)
+    {
+        string[] linii = File.ReadAllLines(inputPath);
+
+        List<string> atributeSelectate = new List<string>();
+        List<int> pozitiiSelectate = new List<int>();
+
+        int indexAtribut = 0;
+        int pozitieData = -1;
+
+        
+        for (int i = 0; i < linii.Length; i++)
+        {
+            string text = linii[i].Trim();
+
+            if (text == "@data")
+            {
+                pozitieData = i;
+                break;
+            }
+
+            if (text.StartsWith("@attribute "))
+            {
+                string[] parti = text.Split(
+                    ' ', StringSplitOptions.RemoveEmptyEntries);
+
+                double castig = double.Parse(
+                    parti[parti.Length - 1],
+                    CultureInfo.InvariantCulture);
+
+                if (castig > prag)
+                {
+                    atributeSelectate.Add(text);
+                    pozitiiSelectate.Add(indexAtribut);
+                }
+
+                indexAtribut++;
+            }
+        }
+
+        if (pozitieData == -1)
+        {
+            Console.WriteLine("Nu exista sectiunea @data!");
+            return;
+        }
+
+        
+        List<string> training = new List<string>();
+        List<string> testing = new List<string>();
+
+        
+        training.AddRange(atributeSelectate);
+        testing.AddRange(atributeSelectate);
+
+        training.Add("@data");
+        testing.Add("@data");
+
+        
+        for (int i = pozitieData + 1; i < linii.Length; i++)
+        {
+            string text = linii[i].Trim();
+
+            if (text.Length == 0)
+                continue;
+
+            string[] parti = text.Split('#');
+
+            if (parti.Length < 4)
+                continue;
+
+            List<string> vectorNou = new List<string>();
+
+            string[] valori = parti[1].Trim().Split(
+                ' ', StringSplitOptions.RemoveEmptyEntries);
+
+           
+            foreach (string valoare in valori)
+            {
+                string[] pereche = valoare.Split(':');
+
+                if (pereche.Length != 2)
+                    continue;
+
+                int pozitie = int.Parse(pereche[0]);
+                int frecventa = int.Parse(pereche[1]);
+
+                int pozitieNoua = pozitiiSelectate.IndexOf(pozitie);
+
+                if (pozitieNoua != -1)
+                {
+                    vectorNou.Add(
+                        (pozitieNoua + 1) + ":" + frecventa);
+                }
+            }
+
+            string vectorFinal = string.Join(" ", vectorNou);
+
+           
+            string linieNoua =
+                parti[0].Trim() + " # " +
+                vectorFinal + " # " +
+                parti[2].Trim() + " # " +
+                parti[3].Trim();
+
+       
+            if (parti[3].Trim() == "Training")
+            {
+                training.Add(linieNoua);
+            }
+            else if (parti[3].Trim() == "Testing")
+            {
+                testing.Add(linieNoua);
+            }
+        }
+
+ 
+        string director = Path.GetDirectoryName(inputPath)!;
+
+        File.WriteAllLines(
+            Path.Combine(director, "rezultat_etapa2_training.txt"),
+            training);
+
+        File.WriteAllLines(
+            Path.Combine(director, "rezultat_etapa2_testing.txt"),
+            testing);
+
+        Console.WriteLine("Etapa 2 terminata!");
+        Console.WriteLine("Atribute selectate: " +
+            atributeSelectate.Count);
+        Console.WriteLine("Fisierele Training si Testing au fost create.");
+    }
+
+
+
 
 
 
